@@ -30,7 +30,11 @@ contract DAO {
     error ProposalAlreadyExecuted();
 
     constructor() {
+        // Deployuj NFTMembership ugovor sa DAO adresom kao vlasnikom
         nft = new NFTMembership(address(this));
+
+        // Mintuj prvi NFT na adresu DAO
+        nft.mintInitial(address(this), "ipfs://<your_initial_metadata_hash>");
     }
 
     modifier onlyMember() {
@@ -73,6 +77,9 @@ contract DAO {
         p.executed = true;
 
         bool approved = p.votesFor > p.votesAgainst;
+
+        // TODO: Dodaj logiku izvršenja odobrenog predloga (ako je potrebno)
+
         emit ProposalExecuted(id, approved);
     }
 }
